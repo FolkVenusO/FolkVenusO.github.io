@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <title>Мой удивительный сайт</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #f3ec78, #af4261);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeIn 1.5s ease-out forwards;
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .welcome {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #af4261;
+            margin-top: 1rem;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 1s forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #af4261;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .button:hover {
+            background-color: #8e3450;
+            transform: scale(1.05);
+        }
+        .kundelik-button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .kundelik-button:hover {
+            background-color: #45a049;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .hidden {
+            display: none;
+        }
+        #funFact, #schoolInfo {
+            margin-top: 20px;
+            font-style: italic;
+            color: #555;
+        }
+        #schoolImage {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .telegram-button {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            background-color: #0088cc;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .telegram-button:hover {
+            background-color: #006699;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        #clock-widget {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+        #clock {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        #date {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Добро пожаловать на мой сайт!</h1>
+        <p>Я создал его сам, с очень плавными анимациями и интерактивными элементами.</p>
+        <div class="welcome">Рад вас видеть!</div>
+
+        <a href="#" class="button" id="changeColorBtn">Изменить цвет</a>
+        <a href="#" class="button" id="showFactBtn">Показать факт</a>
+        <a href="#" class="button" id="showSchoolInfoBtn">О моей школе</a>
+
+        <p id="funFact" class="hidden">Знаете ли вы? Колибри - единственная птица, которая может летать задом наперед!</p>
+
+        <div id="schoolInfo" class="hidden">
+            <h2>Школа №1 Теренколь</h2>
+            <p>Школа №1 Теренколь (ранее Качиры) - одна из старейших школ в районе. Она была основана в начале 20 века и имеет богатую историю. Школа славится своими традициями и высоким уровнем образования.</p>
+            <p>Адрес: Теренкольский сельский округ, район Тереңкөл, ул.Тәуелсіздік 234</p>
+            <img id="schoolImage" src="https://an1.kundelik.kz/get.aspx/49/7ed75f66cee44b0596e0d4e8cdd5b6ae.jpg" alt="Школа №1 Теренколь" />
+        </div>
+        
+        <a href="https://kundelik.kz/v2/user/user?user=1000012794710" class="kundelik-button" target="_blank" rel="noopener noreferrer">
+            Мой Кунделик аккаунт
+        </a>
+    </div>
+
+    <a href="https://t.me/Mafiozy303" class="telegram-button" target="_blank" rel="noopener noreferrer">
+        Связаться в Telegram
+    </a>
+
+    <div id="clock-widget">
+        <div id="clock"></div>
+        <div id="date"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const container = document.querySelector('.container');
+            const welcome = document.querySelector('.welcome');
+            const changeColorBtn = document.getElementById('changeColorBtn');
+            const showFactBtn = document.getElementById('showFactBtn');
+            const showSchoolInfoBtn = document.getElementById('showSchoolInfoBtn');
+            const funFact = document.getElementById('funFact');
+            const schoolInfo = document.getElementById('schoolInfo');
+
+            // Сброс анимаций при загрузке
+            [container, welcome].forEach(el => {
+                el.style.animation = 'none';
+                el.offsetHeight;
+                el.style.animation = null;
+            });
+
+            // Изменение цвета фона
+            changeColorBtn.addEventListener('click', () => {
+                const randomColor = Math.floor(Math.random()*16777215).toString(16);
+                document.body.style.background = `linear-gradient(45deg, #${randomColor}, #af4261)`;
+            });
+
+            // Показать/скрыть интересный факт
+            showFactBtn.addEventListener('click', () => {
+                funFact.classList.toggle('hidden');
+                schoolInfo.classList.add('hidden');
+            });
+
+            // Показать/скрыть информацию о школе
+            showSchoolInfoBtn.addEventListener('click', () => {
+                schoolInfo.classList.toggle('hidden');
+                funFact.classList.add('hidden');
+            });
+
+            // Функция для обновления часов
+            function updateClock() {
+                const now = new Date();
+                const options = { timeZone: 'Asia/Almaty' };
+                
+                const timeString = now.toLocaleTimeString('ru-RU', options);
+                const dateString = now.toLocaleDateString('ru-RU', { ...options, weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                
+                document.getElementById('clock').textContent = timeString;
+                document.getElementById('date').textContent = dateString;
+            }
+
+            // Обновляем часы каждую секунду
+            setInterval(updateClock, 1000);
+
+            // Инициализируем часы при загрузке страницы
+            updateClock();
+        });
+    </script>
+</body>
+</html>
