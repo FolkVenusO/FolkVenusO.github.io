@@ -1,232 +1,393 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
+<html lang="ru"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <title>Мой удивительный сайт</title>
+    <title>Информатика - Интерактивное пособие</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(45deg, #f3ec78, #af4261);
+        * {
             margin: 0;
             padding: 0;
-            min-height: 100vh;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Загрузочный экран */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s;
         }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Основные стили */
+        body {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://static.tildacdn.com/tild6231-6234-4365-b637-653932626636/texture-1668079_1920.jpg');
+            background-attachment: fixed;
+            color: white;
+            min-height: 200vh;
+        }
+
         .container {
-            background: rgba(255, 255, 255, 0.9);
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: rgba(0,0,0,0.5);
             border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-            text-align: center;
-            max-width: 600px;
-            width: 90%;
+            transform: translateY(20px);
             opacity: 0;
-            transform: translateY(50px);
-            animation: fadeIn 1.5s ease-out forwards;
+            transition: all 1s ease;
         }
-        h1, h2 {
-            color: #333;
+
+        header.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        h1 {
+            font-size: 3rem;
             margin-bottom: 1rem;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            background: linear-gradient(45deg, #00ffff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        p {
-            color: #666;
-            line-height: 1.6;
+
+        /* Стили карточек */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
         }
-        .welcome {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #af4261;
-            margin-top: 1rem;
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            min-height: 200px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            transform: translateY(50px);
             opacity: 0;
-            animation: fadeIn 1.5s ease-out 1s forwards;
         }
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .card.visible {
+            transform: translateY(0);
+            opacity: 1;
         }
-        .button {
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .card h3 {
+            color: #00ff88;
+            margin-bottom: 1rem;
+        }
+
+        /* Текстовые блоки */
+        .content-section {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: rgba(0, 40, 80, 0.2);
+            border-radius: 15px;
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 1s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .content-section.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .content-header {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #00ff88, #00b4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        .content-header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: #00ff88;
+            border-radius: 2px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-item {
+            padding: 2rem;
+            margin: 2rem 0;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            position: relative;
+            transform: translateX(-50px);
+            opacity: 0;
+            transition: all 0.8s ease;
+        }
+
+        .timeline-item.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 15px #00ff88;
+        }
+
+        .highlight {
+            color: #00ff88;
+            font-weight: bold;
+            position: relative;
             display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
-            background-color: #af4261;
+            cursor: help;
+        }
+
+        .highlight::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
             color: white;
-            text-decoration: none;
+            padding: 0.5rem 1rem;
             border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
-        .button:hover {
-            background-color: #8e3450;
-            transform: scale(1.05);
+
+        .highlight:hover::after {
+            opacity: 1;
         }
-        .kundelik-button {
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating-icon {
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+            margin: 1rem;
             display: inline-block;
-            padding: 15px 30px;
-            margin-top: 20px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-size: 1.2em;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .kundelik-button:hover {
-            background-color: #45a049;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
-        }
-        .hidden {
-            display: none;
-        }
-        #funFact, #schoolInfo {
-            margin-top: 20px;
-            font-style: italic;
-            color: #555;
-        }
-        #schoolImage {
-            max-width: 100%;
-            height: auto;
-            margin-top: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .telegram-button {
+
+        .progress-container {
             position: fixed;
-            left: 20px;
-            bottom: 20px;
-            background-color: #0088cc;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255,255,255,0.1);
+            z-index: 100;
         }
-        .telegram-button:hover {
-            background-color: #006699;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff, #0066ff);
+            transition: width 0.3s ease;
         }
-        #clock-widget {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            font-family: 'Arial', sans-serif;
-            text-align: center;
-        }
-        #clock {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-        }
-        #date {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .content-header {
+                font-size: 1.8rem;
+            }
+            
+            .timeline-item::before {
+                left: -20px;
+            }
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h1>Добро пожаловать на мой сайт!</h1>
-        <p>Я создал его сам, с очень плавными анимациями и интерактивными элементами.</p>
-        <div class="welcome">Рад вас видеть!</div>
-
-        <a href="#" class="button" id="changeColorBtn">Изменить цвет</a>
-        <a href="#" class="button" id="showFactBtn">Показать факт</a>
-        <a href="#" class="button" id="showSchoolInfoBtn">О моей школе</a>
-
-        <p id="funFact" class="hidden">Знаете ли вы? Колибри - единственная птица, которая может летать задом наперед!</p>
-
-        <div id="schoolInfo" class="hidden">
-            <h2>Школа №1 Теренколь</h2>
-            <p>Школа №1 Теренколь (ранее Качиры) - одна из старейших школ в районе. Она была основана в начале 20 века и имеет богатую историю. Школа славится своими традициями и высоким уровнем образования.</p>
-            <p>Адрес: Теренкольский сельский округ, район Тереңкөл, ул.Тәуелсіздік 234</p>
-            <img id="schoolImage" src="https://an1.kundelik.kz/get.aspx/49/7ed75f66cee44b0596e0d4e8cdd5b6ae.jpg" alt="Школа №1 Теренколь" />
-        </div>
-        
-        <a href="https://kundelik.kz/v2/user/user?user=1000012794710" class="kundelik-button" target="_blank" rel="noopener noreferrer">
-            Мой Кунделик аккаунт
-        </a>
+<body style="background-position-y: 0px;">
+    <div class="loader hidden">
+        <div class="spinner"></div>
     </div>
 
-    <a href="https://t.me/Mafiozy303" class="telegram-button" target="_blank" rel="noopener noreferrer">
-        Связаться в Telegram
-    </a>
+    <div class="progress-container">
+        <div class="progress-bar" style="width: 0%;"></div>
+    </div>
 
-    <div id="clock-widget">
-        <div id="clock"></div>
-        <div id="date"></div>
+    <div class="container">
+        <header class="visible">
+            <h1>Интерактивное пособие по информатике</h1>
+            <p>Исследуйте мир компьютерных наук через интерактивные элементы</p>
+        </header>
+
+        <div class="cards-container">
+            <div class="card visible" style="transform: translateY(0px) scale(1);">
+                <h3>Алгоритмы</h3>
+                <p>Основы построения и анализа эффективных алгоритмов</p>
+            </div>
+            <div class="card visible" style="transform: translateY(0px) scale(1);">
+                <h3>Структуры данных</h3>
+                <p>Массивы, списки, деревья и графы</p>
+            </div>
+            <div class="card visible" style="transform: translateY(0px) scale(1);">
+                <h3>Программирование</h3>
+                <p>Языки программирования и парадигмы</p>
+            </div>
+        </div>
+
+        <section class="content-section visible">
+            <h2 class="content-header">История развития</h2>
+            <div class="timeline">
+                <div class="timeline-item visible">
+                    <span class="floating-icon">🖥️</span>
+                    <h3>1940-е: Первые компьютеры</h3>
+                    <p>Создание <span class="highlight" data-tooltip="Electronic Numerical Integrator and Computer">ENIAC</span> - первого электронного компьютера общего назначения.</p>
+                </div>
+                
+                <div class="timeline-item visible">
+                    <span class="floating-icon">💾</span>
+                    <h3>1970-е: Микропроцессоры</h3>
+                    <p>Появление первого коммерческого микропроцессора <span class="highlight" data-tooltip="Intel 4004">Intel 4004</span> с тактовой частотой 740 кГц.</p>
+                </div>
+                
+                <div class="timeline-item visible">
+                    <span class="floating-icon">🌐</span>
+                    <h3>1990-е: Интернет</h3>
+                    <p>Развитие World Wide Web и первых веб-браузеров.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section visible">
+            <h2 class="content-header">Современные технологии</h2>
+            <div class="timeline">
+                <div class="timeline-item visible">
+                    <span class="floating-icon">🧠</span>
+                    <h3>Искусственный интеллект</h3>
+                    <p>Глубокое обучение и нейронные сети с миллиардами параметров.</p>
+                </div>
+                
+                <div class="timeline-item visible">
+                    <span class="floating-icon">⛓️</span>
+                    <h3>Блокчейн</h3>
+                    <p>Децентрализованные системы и смарт-контракты.</p>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const container = document.querySelector('.container');
-            const welcome = document.querySelector('.welcome');
-            const changeColorBtn = document.getElementById('changeColorBtn');
-            const showFactBtn = document.getElementById('showFactBtn');
-            const showSchoolInfoBtn = document.getElementById('showSchoolInfoBtn');
-            const funFact = document.getElementById('funFact');
-            const schoolInfo = document.getElementById('schoolInfo');
+        // Загрузка страницы
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('hidden');
+                document.querySelector('header').classList.add('visible');
+            }, 1000);
+        });
 
-            // Сброс анимаций при загрузке
-            [container, welcome].forEach(el => {
-                el.style.animation = 'none';
-                el.offsetHeight;
-                el.style.animation = null;
+        // Прогресс-бар
+        window.addEventListener('scroll', () => {
+            const { scrollTop, scrollHeight } = document.documentElement;
+            const scrolled = (scrollTop / (scrollHeight - window.innerHeight)) * 100;
+            document.querySelector('.progress-bar').style.width = `${scrolled}%`;
+        });
+
+        // Анимация элементов
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
+        }, {
+            threshold: 0.1
+        });
 
-            // Изменение цвета фона
-            changeColorBtn.addEventListener('click', () => {
-                const randomColor = Math.floor(Math.random()*16777215).toString(16);
-                document.body.style.background = `linear-gradient(45deg, #${randomColor}, #af4261)`;
+        document.querySelectorAll('.card, .content-section, .timeline-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Параллакс-эффект
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            document.body.style.backgroundPositionY = `${scrolled * 0.5}px`;
+        });
+
+        // Интерактивные карточки
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseover', () => {
+                card.style.transform = 'translateY(-5px) scale(1.02)';
             });
-
-            // Показать/скрыть интересный факт
-            showFactBtn.addEventListener('click', () => {
-                funFact.classList.toggle('hidden');
-                schoolInfo.classList.add('hidden');
+            
+            card.addEventListener('mouseout', () => {
+                card.style.transform = 'translateY(0) scale(1)';
             });
-
-            // Показать/скрыть информацию о школе
-            showSchoolInfoBtn.addEventListener('click', () => {
-                schoolInfo.classList.toggle('hidden');
-                funFact.classList.add('hidden');
-            });
-
-            // Функция для обновления часов
-            function updateClock() {
-                const now = new Date();
-                const options = { timeZone: 'Asia/Almaty' };
-                
-                const timeString = now.toLocaleTimeString('ru-RU', options);
-                const dateString = now.toLocaleDateString('ru-RU', { ...options, weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-                
-                document.getElementById('clock').textContent = timeString;
-                document.getElementById('date').textContent = dateString;
-            }
-
-            // Обновляем часы каждую секунду
-            setInterval(updateClock, 1000);
-
-            // Инициализируем часы при загрузке страницы
-            updateClock();
         });
     </script>
-</body>
-</html>
+
+
+</body></html>
