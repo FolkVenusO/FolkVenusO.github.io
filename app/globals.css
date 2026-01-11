@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  color-scheme: light;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-sans);
+  background: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.07), transparent 25%),
+    radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.06), transparent 20%),
+    #0b1021;
+  color: #e2e8f0;
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.dark {
+  background: #05070f;
+  color: #e2e8f0;
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.mesh-bg {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 10% 20%, rgba(255, 166, 158, 0.25), transparent 25%),
+    radial-gradient(circle at 80% 0%, rgba(128, 178, 255, 0.28), transparent 30%),
+    radial-gradient(circle at 30% 75%, rgba(183, 148, 244, 0.25), transparent 30%),
+    radial-gradient(circle at 90% 85%, rgba(93, 255, 213, 0.2), transparent 28%),
+    linear-gradient(120deg, rgba(12, 16, 34, 0.9), rgba(8, 10, 22, 0.95));
+  animation: meshMove 22s ease-in-out infinite alternate;
+  filter: blur(50px);
+  z-index: 0;
+}
+
+@keyframes meshMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.custom-cursor {
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 9999px;
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  transition: transform 120ms ease, width 160ms ease, height 160ms ease, background 200ms ease;
+}
+
+.custom-cursor[data-active='true'] {
+  transform: scale(2.2);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.cursor-ring {
+  width: 50px;
+  height: 50px;
+  border-radius: 999px;
+  position: fixed;
+  z-index: 40;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 60%);
+  transition: transform 220ms ease, opacity 250ms ease;
+}
+
+.cursor-ring[data-active='true'] {
+  transform: scale(1.2);
+  opacity: 0.85;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #b794f4, #63e6be);
+  border-radius: 999px;
+}
+
