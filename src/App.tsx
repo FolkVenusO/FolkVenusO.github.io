@@ -1,13 +1,53 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Code2, Server, Cpu, Github, Send, Gamepad2, Menu, X, ChevronRight, Terminal } from 'lucide-react';
+import { Code2, Server, Cpu, Github, Send, Gamepad2, Menu, X, ChevronRight, Terminal, Sparkles, Zap } from 'lucide-react';
 
 const navLinks = [
   { name: 'Главная', href: '#home' },
   { name: 'Обо мне', href: '#about' },
   { name: 'Навыки', href: '#skills' },
+  { name: 'Фэндомы', href: '#fandoms' },
   { name: 'Контакты', href: '#contact' },
 ];
+
+const ScrambleText = ({ text }: { text: string }) => {
+  const [displayText, setDisplayText] = useState('');
+  const chars = '!<>-_\\/[]{}—=+*^?#';
+  
+  useEffect(() => {
+    let iteration = 0;
+    let interval: ReturnType<typeof setInterval>;
+    
+    const timeout = setTimeout(() => {
+      interval = setInterval(() => {
+        setDisplayText(
+          text
+            .split('')
+            .map((letter, index) => {
+              if (index < iteration) {
+                return text[index];
+              }
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join('')
+        );
+        
+        if (iteration >= text.length) {
+          clearInterval(interval);
+        }
+        
+        iteration += 1 / 4;
+      }, 40);
+    }, 600);
+    
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
+  }, [text]);
+  
+  return <span>{displayText || text.replace(/./g, '_')}</span>;
+};
 
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -103,8 +143,8 @@ export default function App() {
             >
               <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
                 Привет, я <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">
-                  Рамазан
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600 inline-block">
+                  <ScrambleText text="Рамазан" />
                 </span>
               </h1>
             </motion.div>
@@ -247,6 +287,60 @@ export default function App() {
                   <p className="text-slate-400 leading-relaxed">{skill.desc}</p>
                 </motion.div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Fandoms Section */}
+        <section id="fandoms" className="py-24 px-6 bg-slate-900/30">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Фэндомы и Интересы</h2>
+              <div className="w-20 h-1 bg-sky-500 mx-auto rounded-full" />
+            </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {/* MLP */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5 }}
+                className="bg-slate-900 border border-slate-800 rounded-2xl p-8 hover:border-purple-500/50 transition-colors group relative overflow-hidden"
+              >
+                <div className="absolute -right-4 -top-4 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-colors" />
+                <div className="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-slate-700 group-hover:border-purple-500/30">
+                  <Sparkles className="w-7 h-7 text-purple-400" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-slate-100">My Little Pony</h3>
+                <p className="text-slate-400 leading-relaxed">
+                  Обожаю вселенную MLP. Мой самый любимый персонаж — <span className="text-purple-300 font-medium">Дерпи Хувз (Derpy Hooves)</span>. 🫧
+                </p>
+              </motion.div>
+
+              {/* Half-Life */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="bg-slate-900 border border-slate-800 rounded-2xl p-8 hover:border-orange-500/50 transition-colors group relative overflow-hidden"
+              >
+                <div className="absolute -right-4 -top-4 w-24 h-24 bg-orange-500/10 rounded-full blur-2xl group-hover:bg-orange-500/20 transition-colors" />
+                <div className="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-slate-700 group-hover:border-orange-500/30">
+                  <Zap className="w-7 h-7 text-orange-400" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-slate-100">Half-Life</h3>
+                <p className="text-slate-400 leading-relaxed">
+                  Отлично шарю за игры от Valve. Прошел <span className="text-orange-300 font-medium">Half-Life</span> и глубоко погружен в лор этой культовой вселенной. ☢️
+                </p>
+              </motion.div>
             </div>
           </div>
         </section>
