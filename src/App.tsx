@@ -269,21 +269,27 @@ export default function App() {
 
               <div className="flex flex-wrap justify-center gap-6">
                 <a
-                  href="#"
+                  href="https://t.me/FolkVenusO"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-3 px-6 py-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-sky-500/50 rounded-xl transition-all hover:-translate-y-1 group"
                 >
                   <Send className="w-6 h-6 text-sky-400 group-hover:text-white transition-colors" />
                   <span className="font-medium">Telegram</span>
                 </a>
                 <a
-                  href="#"
+                  href="https://github.com/FolkVenusO"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-3 px-6 py-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-sky-500/50 rounded-xl transition-all hover:-translate-y-1 group"
                 >
                   <Github className="w-6 h-6 text-sky-400 group-hover:text-white transition-colors" />
                   <span className="font-medium">GitHub</span>
                 </a>
                 <a
-                  href="#"
+                  href="https://steamcommunity.com/id/Derpy_The_Mailmare/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-3 px-6 py-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-sky-500/50 rounded-xl transition-all hover:-translate-y-1 group"
                 >
                   <Gamepad2 className="w-6 h-6 text-sky-400 group-hover:text-white transition-colors" />
